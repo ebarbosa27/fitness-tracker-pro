@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useAuth } from "../auth/AuthContext";
 import useQuery from "../api/useQuery";
@@ -34,6 +35,7 @@ export default function ActivityItem() {
 }
 
 function DelActButton() {
+  const { delError, setDelError } = useState();
   const { activityId } = useParams();
   const { token } = useAuth();
   const navigate = useNavigate();
@@ -43,16 +45,21 @@ function DelActButton() {
     error,
   } = useMutation("DELETE", "/activities/" + activityId, ["activities"]);
 
+  const tryDelete = async () => {
+    try {
+      await deleteActivity();
+      navigate("/");
+    } catch (err) {
+      setDelError(err);
+    }
+  };
+
   if (token) {
     return (
-      <button
-        onClick={() => {
-          deleteActivity();
-          navigate("/");
-        }}
-      >
-        {loading ? "Deleting" : error ? error : "Delete"}
-      </button>
+      <>
+        <button onClick={tryDelete}>{loading ? "Deleting" : error ? error : "Delete"}</button>
+        {delError && <output>{delError}</output>}
+      </>
     );
   }
 }
