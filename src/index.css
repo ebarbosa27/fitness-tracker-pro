@@ -41,3 +41,23 @@ ul,
 ol {
   padding-left: 1rem;
 }
+
+.activityItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+}
+
+.activityItem h3 {
+  font-size: 23px;
+  text-transform: capitalize;
+}
+
+.activityItem div {
+  width: 100%;
+  display: flex;
+  gap: 3rem;
+  text-align: start;
+}
